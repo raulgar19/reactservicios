@@ -5,7 +5,7 @@ import ServiceApiSuppliers from "./components/ServiceApiSuppliers";
 function App() {
   return (
     <div>
-      {/*<ServicioApiCustomers />*/}
+      <ServicioApiCustomers />
       <ServiceApiSuppliers />
     </div>
   );
