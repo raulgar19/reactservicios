@@ -9,6 +9,7 @@ export default class EmpleadosOficios extends Component {
   state = {
     oficios: [],
     empleados: [],
+    empleadosOficios: [],
   };
 
   loadOficios = () => {
@@ -39,14 +40,25 @@ export default class EmpleadosOficios extends Component {
     this.loadOficios();
   }
 
-  buscarEmpleados = () => {};
+  buscarEmpleados = (event) => {
+    event.preventDefault();
+    let oficio = this.selectOficio.current.value;
+    let request = "api/empleados/empleadosoficio/" + oficio;
+
+    axios(this.urlEmpleados + request).then((response) => {
+      console.log("Filtrando empleados...");
+      this.setState({
+        empleadosOficios: response.data,
+      });
+    });
+  };
 
   render() {
     return (
       <div>
         <h1>Empleados Oficios</h1>
         <form>
-          <label>Selecciona el oficio</label>
+          <label>Selecciona el oficio: </label>
           <select ref={this.selectOficio}>
             {this.state.oficios.map((oficio, index) => {
               return (
@@ -55,9 +67,29 @@ export default class EmpleadosOficios extends Component {
                 </option>
               );
             })}
-            <button onClick={this.buscarEmpleados}>Buscar empleados</button>
           </select>
+          <button onClick={this.buscarEmpleados}>Buscar empleados</button>
         </form>
+        <table>
+          <thead>
+            <tr>
+              <th>Apellido</th>
+              <th>Oficio</th>
+              <th>Salario</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.empleadosOficios.map((empleado, index) => {
+              return (
+                <tr>
+                  <td key={index}>{empleado.apellido}</td>
+                  <td key={index}>{empleado.oficio}</td>
+                  <td key={index}>{empleado.salario}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     );
   }
