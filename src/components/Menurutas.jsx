@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 export default class Menurutas extends Component {
   render() {
@@ -6,25 +7,25 @@ export default class Menurutas extends Component {
       <div>
         <ul>
           <li>
-            <a href="/">Home</a>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <a href="/tabla/21">Tabla Multiplicar 21</a>
+            <NavLink to="/tabla/21">Tabla Multiplicar 21</NavLink>
           </li>
           <li>
-            <a href="/tabla/7">Tabla Multiplicar 7</a>
+            <NavLink to="/tabla/7">Tabla Multiplicar 7</NavLink>
           </li>
           <li>
-            <a href="/tabla/33">Tabla Multiplicar 33</a>
+            <NavLink to="/tabla/33">Tabla Multiplicar 33</NavLink>
           </li>
           <li>
-            <a href="/collatz/21">Conjetura de Collatz 21</a>
+            <NavLink to="/collatz/21">Conjetura de Collatz 21</NavLink>
           </li>
           <li>
-            <a href="/collatz/7">Conjetura de Collatz 7</a>
+            <NavLink to="/collatz/7">Conjetura de Collatz 7</NavLink>
           </li>
           <li>
-            <a href="/collatz/33">Conjetura de Collatz 33</a>
+            <NavLink to="/collatz/33">Conjetura de Collatz 33</NavLink>
           </li>
         </ul>
       </div>

@@ -22,6 +22,12 @@ export default class TablaMultiplicar extends Component {
     this.generarTablaMultiplicar();
   };
 
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.numero !== this.props.numero) {
+      this.generarTablaMultiplicar();
+    }
+  };
+
   render() {
     return (
       <div>
