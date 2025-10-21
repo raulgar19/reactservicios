@@ -1,42 +1,23 @@
 import React, { Component } from "react";
+import Alumnos from "./Alumnos";
 import Global from "../../Global";
 import axios from "axios";
-import Alumnos from "./Alumnos";
-
 export default class Cursos extends Component {
-  url = Global.urlCursos;
-  selectCursos = React.createRef();
-
+  url = Global.urlAlumnos;
+  selectCurso = React.createRef();
   state = {
     cursos: [],
-    idCurso: "",
-    alumno: {},
-  };
-
-  loadAlumno = (idAlumno) => {
-    var request = "api/Alumnos/FindAlumno/" + idAlumno;
-
-    axios(this.url + request).then((response) => {
-      this.setState({
-        alumno: response.data,
-      });
-    });
+    idCurso: -1,
+    alumnoSeleccionado: null,
   };
 
   loadCursos = () => {
-    const request = "api/alumnos/cursos";
-
-    axios(this.url + request).then((response) => {
+    let request = "api/alumnos/cursos";
+    axios.get(this.url + request).then((response) => {
+      console.log("Leyendo cursos");
       this.setState({
         cursos: response.data,
       });
-    });
-  };
-
-  getAlumnos = (event) => {
-    event.preventDefault();
-    this.setState({
-      idCurso: this.selectCursos.current.value,
     });
   };
 
@@ -44,33 +25,52 @@ export default class Cursos extends Component {
     this.loadCursos();
   };
 
+  mostrarAlumnos = (event) => {
+    event.preventDefault();
+    let idCurso = this.selectCurso.current.value;
+    this.setState({
+      idCurso: idCurso,
+    });
+  };
+
+  seleccionarAlumno = (alumno) => {
+    console.log(alumno);
+    this.setState({
+      alumnoSeleccionado: alumno,
+    });
+  };
+
   render() {
     return (
       <div>
-        <h1>Práctica Cursos</h1>
+        <h1>Cursos</h1>
+        {this.state.alumnoSeleccionado && (
+          <div>
+            <h2>
+              {this.state.alumnoSeleccionado.nombre}
+              {this.state.alumnoSeleccionado.apellidos}
+            </h2>
+            <img
+              src={this.state.alumnoSeleccionado.imagen}
+              style={{ width: "250px", height: "300px" }}
+              alt="  "
+            />
+          </div>
+        )}
         <form>
-          <label>Selecciona curso: </label>
-          <select ref={this.selectCursos}>
-            {this.state.cursos.map((curso, index) => (
-              <option key={index} value={curso}>
-                {curso}
-              </option>
-            ))}
+          <select ref={this.selectCurso}>
+            {this.state.cursos.map((curso, index) => {
+              return <option key={index}>{curso}</option>;
+            })}
           </select>
-          <button type="button" onClick={this.getAlumnos}>
-            Obtener alumnos
-          </button>
+          <button onClick={this.mostrarAlumnos}>Mostrar alumnos</button>
         </form>
-
-        <div>
-          <h1>
-            {this.state.alumno.nombre} {this.state.alumno.apellidos}
-          </h1>
-          <h1>IdAlumno: {this.state.alumno.idAlumno}</h1>
-          <img src={this.state.alumno.imagen} alt="" />
-        </div>
-
-        <Alumnos idCurso={this.state.idCurso} loadAlumno={this.loadAlumno} />
+        {this.state.idCurso !== -1 && (
+          <Alumnos
+            idcurso={this.state.idCurso}
+            seleccionarAlumno={this.seleccionarAlumno}
+          />
+        )}
       </div>
     );
   }
